@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-payload="{\"text\":\"$TARGET is down! [Click here for the log]($RUN_URL).\"}"
+payload="{\"text\":\"@all $TARGET is down! [Click here for the log]($RUN_URL).\"}"
 curl \
   --show-error \
   --fail \
