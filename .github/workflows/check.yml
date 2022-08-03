@@ -1,6 +1,7 @@
 name: Down Detector
 on:
-  schedule:
+  - workflow_dispatch:
+  - schedule:
     - cron: '*/5 * * * *'
 
 jobs:
