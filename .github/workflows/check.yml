@@ -10,16 +10,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          echo "::set-output name=STDOUT::$(
-            .ci/check-ping.sh
-          )"
+          out=$(.ci/check-ping.sh)
+          code=$?
+          echo "::set-output name=error::$out"
+          exit $code
         env:
           TARGET: ping.firez.one
         id: check
       - run: .ci/alert.sh
         if: failure()
         env:
-          PAYLOAD: ${{steps.check.outputs.STDOUT}}
+          PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
 
@@ -28,16 +29,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          echo "::set-output name=STDOUT::$(
-            .ci/check-ping.sh
-          )"
+          out=$(.ci/check-ping.sh)
+          code=$?
+          echo "::set-output name=error::$out"
+          exit $code
         env:
           TARGET: ping-dev.firez.one
         id: check
       - run: .ci/alert.sh
         if: failure()
         env:
-          PAYLOAD: ${{steps.check.outputs.STDOUT}}
+          PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
   check-telemetry:
@@ -48,12 +50,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          echo "::set-output name=STDOUT::$(
-            .ci/check-telemetry.sh
-          )"
+          out=$(.ci/check-telemetry.sh)
+          code=$?
+          echo "::set-output name=error::$out"
+          exit $code
         id: check
       - run: .ci/alert.sh
         if: failure()
         env:
-          PAYLOAD: ${{steps.check.outputs.STDOUT}}
+          PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
