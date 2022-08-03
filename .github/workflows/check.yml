@@ -9,14 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: .ci/check-ping.sh
+      - run: |
+          echo "::set-output name=STDOUT::$(
+            .ci/check-ping.sh
+          )"
         env:
           TARGET: ping.firez.one
         id: check
       - run: .ci/alert.sh
         if: failure()
         env:
-          PAYLOAD: ${{join(steps.check.outputs.*, '\n')}}
+          PAYLOAD: ${{steps.check.outputs.STDOUT}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
 
@@ -24,14 +27,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: .ci/check-ping.sh
+      - run: |
+          echo "::set-output name=STDOUT::$(
+            .ci/check-ping.sh
+          )"
         env:
           TARGET: ping-dev.firez.one
         id: check
       - run: .ci/alert.sh
         if: failure()
         env:
-          PAYLOAD: ${{join(steps.check.outputs.*, '\n')}}
+          PAYLOAD: ${{steps.check.outputs.STDOUT}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
   check-telemetry:
@@ -41,10 +47,13 @@ jobs:
       TELEM_ID: ${{secrets.TELEM_ID}}
     steps:
       - uses: actions/checkout@v3
-      - run: .ci/check-telemetry.sh
+      - run: |
+          echo "::set-output name=STDOUT::$(
+            .ci/check-telemetry.sh
+          )"
         id: check
       - run: .ci/alert.sh
         if: failure()
         env:
-          PAYLOAD: ${{join(steps.check.outputs.*, '\n')}}
+          PAYLOAD: ${{steps.check.outputs.STDOUT}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}

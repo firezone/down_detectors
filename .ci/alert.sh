@@ -1,4 +1,3 @@
 #!/bin/sh
 set -e
-payload="{\"text\":\"$PAYLOAD\"}"
-curl -i -X POST -H 'Content-Type: application/json' -d $payload $WEBHOOK_URL
+curl -s -X POST -H 'Content-Type: application/json' -d "{\"text\":\"$PAYLOAD\"}" $WEBHOOK_URL
