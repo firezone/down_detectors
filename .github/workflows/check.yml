@@ -9,18 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          out=`.ci/check-ping.sh`
-          code=$?
-          echo "::set-output name=error::$out"
-          exit $code
+      - run: .ci/check-ping.sh
         env:
           TARGET: ping.firez.one
-        continue-on-error: true
-        id: check
       - run: .ci/alert.sh
         if: failure()
         env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
@@ -29,19 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          out=`.ci/check-ping.sh`
-          code=$?
-          echo $out
-          echo "::set-output name=error::$out"
-          exit $code
+      - run: .ci/check-ping.sh
         env:
-          TARGET: ping-dev.firez.one
-        continue-on-error: true
-        id: check
+          TARGET: ping.firez.one
       - run: .ci/alert.sh
         if: failure()
         env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
@@ -52,15 +41,10 @@ jobs:
       TELEM_ID: ${{secrets.TELEM_ID}}
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          out=`.ci/check-telemetry.sh`
-          code=$?
-          echo "::set-output name=error::$out"
-          exit $code
-        continue-on-error: true
-        id: check
+      - run: .ci/check-telemetry.sh
       - run: .ci/alert.sh
         if: failure()
         env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}

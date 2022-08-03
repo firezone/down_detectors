@@ -1,5 +1,5 @@
 #!/bin/sh
-echo 2&>1
+set -e
 payload="{\"api_key\":\"$POST_KEY\",\"event\":\"down_detect\",\"properties\":{\"distinct_id\":\"$TELEM_ID\"}}"
 curl \
   -s \
