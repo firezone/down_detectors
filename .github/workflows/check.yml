@@ -1,0 +1,45 @@
+on:
+  schedule:
+    - cron: '* * * * *'
+
+jobs:
+  check-ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: .ci/check-ping.sh
+        env:
+          TARGET: ping.firez.one
+        id: check
+      - run: .ci/alert.sh
+        if: failure()
+        env:
+          PAYLOAD: ${{join(steps.check.outputs.*, '\n')}}
+          WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+
+
+  check-ping-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - run: .ci/check-ping.sh
+        env:
+          TARGET: ping-dev.firez.one
+        id: check
+      - run: .ci/alert.sh
+        if: failure()
+        env:
+          PAYLOAD: ${{join(steps.check.outputs.*, '\n')}}
+          WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+
+  check-telemetry:
+    runs-on: ubuntu-latest
+    env:
+      POST_KEY: ${{secrets.POST_KEY}}
+      TELEM_ID: ${{secrets.TELEM_ID}}
+    steps:
+      - run: .ci/check-telemetry.sh
+        id: check
+      - run: .ci/alert.sh
+        if: failure()
+        env:
+          PAYLOAD: ${{join(steps.check.outputs.*, '\n')}}
+          WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
