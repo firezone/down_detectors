@@ -1,7 +1,7 @@
 name: Down Detector
 on:
   schedule:
-    - cron: '* * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   check-ping:
