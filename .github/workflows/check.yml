@@ -6,12 +6,12 @@ on:
 
 jobs:
   check-ping:
+    env:
+      TARGET: ping.firez.one
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: .ci/check-ping.sh
-        env:
-          TARGET: ping.firez.one
       - run: .ci/alert.sh
         if: failure()
         env:
@@ -21,11 +21,11 @@ jobs:
 
   check-ping-dev:
     runs-on: ubuntu-latest
+    env:
+      TARGET: ping-dev.firez.one
     steps:
       - uses: actions/checkout@v3
       - run: .ci/check-ping.sh
-        env:
-          TARGET: ping-dev.firez.one
       - run: .ci/alert.sh
         if: failure()
         env:
@@ -37,12 +37,12 @@ jobs:
     env:
       POST_KEY: ${{secrets.POST_KEY}}
       TELEM_ID: ${{secrets.TELEM_ID}}
+      TARGET: telemetry.firez.one
     steps:
       - uses: actions/checkout@v3
       - run: .ci/check-telemetry.sh
       - run: .ci/alert.sh
         if: failure()
         env:
-          TARGET
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
