@@ -16,7 +16,6 @@ jobs:
         if: failure()
         env:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
 
@@ -31,7 +30,6 @@ jobs:
         if: failure()
         env:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
 
   check-telemetry:
@@ -45,6 +43,6 @@ jobs:
       - run: .ci/alert.sh
         if: failure()
         env:
+          TARGET
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          PAYLOAD: ${{steps.check.outputs.error}}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
