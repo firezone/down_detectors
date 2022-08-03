@@ -16,6 +16,7 @@ jobs:
           exit $code
         env:
           TARGET: ping.firez.one
+        continue-on-error: true
         id: check
       - run: .ci/alert.sh
         if: failure()
@@ -35,6 +36,7 @@ jobs:
           exit $code
         env:
           TARGET: ping-dev.firez.one
+        continue-on-error: true
         id: check
       - run: |
           echo '${{steps.check.outputs.error}}'
@@ -56,6 +58,7 @@ jobs:
           code=$?
           echo "::set-output name=error::$out"
           exit $code
+        continue-on-error: true
         id: check
       - run: .ci/alert.sh
         if: failure()
