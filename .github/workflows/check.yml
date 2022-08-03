@@ -8,6 +8,7 @@ jobs:
   check-ping:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - run: .ci/check-ping.sh
         env:
           TARGET: ping.firez.one
@@ -22,6 +23,7 @@ jobs:
   check-ping-dev:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - run: .ci/check-ping.sh
         env:
           TARGET: ping-dev.firez.one
@@ -38,6 +40,7 @@ jobs:
       POST_KEY: ${{secrets.POST_KEY}}
       TELEM_ID: ${{secrets.TELEM_ID}}
     steps:
+      - uses: actions/checkout@v3
       - run: .ci/check-telemetry.sh
         id: check
       - run: .ci/alert.sh
