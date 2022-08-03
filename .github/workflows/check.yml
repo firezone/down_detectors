@@ -32,15 +32,14 @@ jobs:
       - run: |
           out=$(.ci/check-ping.sh)
           code=$?
+          echo $out
           echo "::set-output name=error::$out"
           exit $code
         env:
           TARGET: ping-dev.firez.one
         continue-on-error: true
         id: check
-      - run: |
-          echo '${{steps.check.outputs.error}}'
-          .ci/alert.sh
+      - run: .ci/alert.sh
         if: failure()
         env:
           PAYLOAD: ${{steps.check.outputs.error}}
