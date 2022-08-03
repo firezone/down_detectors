@@ -30,6 +30,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           out=$(.ci/check-ping.sh)
+          echo $out
           code=$?
           echo "::set-output name=error::$out"
           exit $code
