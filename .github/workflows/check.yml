@@ -8,7 +8,6 @@ jobs:
   check-ping:
     env:
       TARGET: ping.firez.one
-      OUTFILE: ping.stdout
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,14 +17,12 @@ jobs:
         env:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
-      - uses: stefanzweifel/git-auto-commit-action@v4
 
 
   check-ping-dev:
     runs-on: ubuntu-latest
     env:
       TARGET: ping-dev.firez.one
-      OUTFILE: ping-dev.stdout
     steps:
       - uses: actions/checkout@v3
       - run: .ci/check-ping.sh
@@ -34,7 +31,6 @@ jobs:
         env:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
-      - uses: stefanzweifel/git-auto-commit-action@v4
 
   check-telemetry:
     runs-on: ubuntu-latest
@@ -42,7 +38,6 @@ jobs:
       POST_KEY: ${{secrets.POST_KEY}}
       TELEM_ID: ${{secrets.TELEM_ID}}
       TARGET: telemetry.firez.one
-      OUTFILE: check-telemetry.stdout
     steps:
       - uses: actions/checkout@v3
       - run: .ci/check-telemetry.sh
@@ -51,4 +46,12 @@ jobs:
         env:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+
+
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: touch touch-me
       - uses: stefanzweifel/git-auto-commit-action@v4
+
