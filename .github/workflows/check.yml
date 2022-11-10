@@ -15,8 +15,10 @@ jobs:
       - run: .ci/alert.sh
         if: failure()
         env:
+          OUTFILE: ./ping.stdout
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+      - uses: stefanzweifel/git-auto-commit-action@v4
 
 
   check-ping-dev:
@@ -29,8 +31,10 @@ jobs:
       - run: .ci/alert.sh
         if: failure()
         env:
+          OUTFILE: ./ping-dev.stdout
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+      - uses: stefanzweifel/git-auto-commit-action@v4
 
   check-telemetry:
     runs-on: ubuntu-latest
@@ -44,5 +48,7 @@ jobs:
       - run: .ci/alert.sh
         if: failure()
         env:
+          OUTFILE: ./check-telemetry.stdout
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+      - uses: stefanzweifel/git-auto-commit-action@v4

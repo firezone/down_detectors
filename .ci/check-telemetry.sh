@@ -8,4 +8,5 @@ curl \
   -XPOST \
   -H 'Content-Type: application/json' \
   -d $payload \
-  https://telemetry.firez.one/capture/
+  https://telemetry.firez.one/capture/ > $OUTFILE
+
